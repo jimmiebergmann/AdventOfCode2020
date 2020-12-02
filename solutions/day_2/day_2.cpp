@@ -3,6 +3,7 @@
 
 #include <regex>
 #include <algorithm>
+#include <functional>
 
 struct password_data_type
 {
@@ -45,21 +46,6 @@ bool validate_silver_password(const password_data_type& password_data)
     return policy_token_count >= password_data.min && policy_token_count <= password_data.max;
 }
 
-int solve_silver(const std::vector<std::string>& lines)
-{
-    int valid_password_count = 0;
-    for(const auto& line : lines)
-    {
-        auto password_data = parse_password_data(line);
-        if(validate_silver_password(password_data))
-        {
-            valid_password_count++;
-        }
-    }
-
-    return valid_password_count;
-}
-
 bool validate_gold_password(const password_data_type& password_data)
 {
     int matches =
@@ -69,13 +55,13 @@ bool validate_gold_password(const password_data_type& password_data)
     return matches == 1;
 }
 
-int solve_gold(const std::vector<std::string>& lines)
+int count_valid_passwords(const std::vector<std::string>& lines, std::function<bool(const password_data_type&)> password_validator)
 {
     int valid_password_count = 0;
     for (const auto& line : lines)
     {
         auto password_data = parse_password_data(line);
-        if (validate_gold_password(password_data))
+        if (password_validator(password_data))
         {
             valid_password_count++;
         }
@@ -92,8 +78,8 @@ int main()
         exit_with_error("Failed to read input file.");
     }
 
-    auto silver_result = solve_silver(lines);
-    auto gold_result = solve_gold(lines);
+    auto silver_result = count_valid_passwords(lines, validate_silver_password);
+    auto gold_result = count_valid_passwords(lines, validate_gold_password);
 
     print_result(silver_result, gold_result);
 }
