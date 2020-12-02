@@ -1,5 +1,5 @@
-# AdventOfCode2020
-Advent of code 2020 C++17 solutions.
+# :santa: Advent of Code 2020 :christmas_tree:
+Advent of Code 2020 C++17 solutions.
 
 ## How to build
 ``` shell
