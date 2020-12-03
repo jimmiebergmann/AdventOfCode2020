@@ -1,9 +1,6 @@
-#include "result_printer.hpp"
-#include "file_reader.hpp"
-
+#include "utility.hpp"
 #include <regex>
-#include <algorithm>
-#include <functional>
+
 
 struct password_data_type
 {
@@ -20,12 +17,12 @@ password_data_type parse_password_data(const std::string& data)
     std::smatch matches;
     if (!std::regex_search(data, matches, regex))
     {
-        exit_with_error("Failed to parse password data.");
+        throw utils::puzzle_exception("Failed to parse password data.");
     }
 
     if(matches.size() != 5)
     {
-        exit_with_error("Ill-formed password data.");
+        throw utils::puzzle_exception("Ill-formed password data.");
     }
 
     return {
@@ -36,7 +33,7 @@ password_data_type parse_password_data(const std::string& data)
     };
 }
 
-bool validate_silver_password(const password_data_type& password_data)
+bool validate_part_1_password(const password_data_type& password_data)
 {
     int policy_token_count = std::count(
         password_data.password.begin(), 
@@ -46,7 +43,7 @@ bool validate_silver_password(const password_data_type& password_data)
     return policy_token_count >= password_data.min && policy_token_count <= password_data.max;
 }
 
-bool validate_gold_password(const password_data_type& password_data)
+bool validate_part_2_password(const password_data_type& password_data)
 {
     int matches =
         (password_data.password[password_data.min - 1] == password_data.policy ? 1 : 0) +
@@ -72,14 +69,14 @@ int count_valid_passwords(const std::vector<std::string>& lines, std::function<b
 
 int main()
 {
-    const auto lines = read_file_lines<std::string>("day_2_input.txt");
-    if(lines.empty())
+    const auto lines = utils::read_file_lines<std::string>("day_2_input.txt");
+    if (lines.empty())
     {
-        exit_with_error("Failed to read input file.");
+        throw utils::puzzle_exception("Failed to read input file.");
     }
 
-    auto silver_result = count_valid_passwords(lines, validate_silver_password);
-    auto gold_result = count_valid_passwords(lines, validate_gold_password);
-
-    print_result(silver_result, gold_result);
+    utils::print_result(
+        count_valid_passwords(lines, validate_part_1_password),
+        count_valid_passwords(lines, validate_part_2_password)
+    );
 }

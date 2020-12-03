@@ -1,7 +1,6 @@
-#include "result_printer.hpp"
-#include "file_reader.hpp"
+#include "utility.hpp"
 
-int64_t solve_silver(const std::vector<int64_t>& values)
+int64_t solve_part_1(const std::vector<int64_t>& values)
 {
     for (size_t i = 0; i < values.size(); i++)
     {
@@ -15,11 +14,10 @@ int64_t solve_silver(const std::vector<int64_t>& values)
         }
     }
 
-    exit_with_error("Failed to find solution with 2 depths.");
-    return 0;
+    throw utils::puzzle_exception("Failed to find solution with 2 depths.");
 }
 
-int64_t solve_gold(const std::vector<int64_t>& values)
+int64_t solve_part_2(const std::vector<int64_t>& values)
 {
     for (size_t i = 0; i < values.size(); i++)
     {
@@ -36,20 +34,19 @@ int64_t solve_gold(const std::vector<int64_t>& values)
         }
     }
 
-    exit_with_error("Failed to find solution with 3 depths.");
-    return 0;
+    throw utils::puzzle_exception("Failed to find solution with 3 depths.");
 }
 
 int main()
 {
-    auto values = read_file_lines<int64_t>("day_1_input.txt");
-    if(values.empty())
+    auto values = utils::read_file_lines<int64_t>("day_1_input.txt");
+    if (values.empty())
     {
-        exit_with_error("Failed to read input file.");
+        throw utils::puzzle_exception("Failed to read input file.");
     }
 
-    auto silver_result = solve_silver(values);
-    auto gold_result = solve_gold(values);
-
-    print_result(silver_result, gold_result);
+    utils::print_result(
+        solve_part_1(values),
+        solve_part_2(values)
+    );
 }

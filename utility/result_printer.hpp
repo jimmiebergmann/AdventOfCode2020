@@ -2,19 +2,29 @@
 #define AOC_UTILITY_RESULT_PRINTER_HPP
 
 #include <iostream>
+#include <exception>
+#include <string>
 
-template<typename TSilverResultType, typename TGoldResultType>
-void print_result(const TSilverResultType& silverResult, const TGoldResultType& goldResult)
+namespace utils
 {
-    std::cout << "Silver result: " << silverResult << "\n";
-    std::cout << "Gold result:   " << goldResult << "\n";
-}
 
-void exit_with_error(const std::string& error_message)
-{
-    std::cerr << "Failed puzzle: " << error_message << "\n";
-    exit(-1);
-}
+    struct puzzle_exception : public std::exception
+    {
 
+        puzzle_exception(const std::string& message) :
+            std::exception(message.c_str())
+        {}
+
+    };
+
+    template<typename ... TResults>
+    void print_result(const TResults& ... results)
+    {
+        size_t part = 0;
+        ((std::cout << "Part " << (++part) << " result: " << results << "\n"), ...);
+
+    }
+
+}
 
 #endif
