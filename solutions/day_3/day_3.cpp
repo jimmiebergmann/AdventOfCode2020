@@ -14,7 +14,7 @@ size_t count_trees(const std::vector<std::string>& lines, const int64_t slope_x,
     for (pos.y = slope_y; pos.y < lines.size(); pos.y += slope_y)
     {
         auto& line = lines[pos.y];
-        (pos.x += slope_x) %= line.size();
+        pos.x = (pos.x + slope_x) % line.size();
         auto current_token = line[pos.x];
         if (current_token == '#')
         {
@@ -40,13 +40,12 @@ size_t solve_part_2(const std::vector<std::string>& lines)
         count_trees(lines, 1, 2)
     };
 
-    return std::accumulate(
+    return std::accumulate<>(
         data.begin(), 
         data.end(), 
         size_t{ 1 },
-        std::multiplies<size_t>());
+        std::multiplies<>());
 }
-
 
 int main()
 {
