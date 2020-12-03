@@ -75,7 +75,7 @@ int main()
         throw utils::puzzle_exception("Failed to read input file.");
     }
 
-    utils::print_result(
+    utils::print_results(
         count_valid_passwords(lines, validate_part_1_password),
         count_valid_passwords(lines, validate_part_2_password)
     );

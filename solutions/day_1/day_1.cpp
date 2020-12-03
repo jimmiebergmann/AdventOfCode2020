@@ -45,7 +45,7 @@ int main()
         throw utils::puzzle_exception("Failed to read input file.");
     }
 
-    utils::print_result(
+    utils::print_results(
         solve_part_1(values),
         solve_part_2(values)
     );

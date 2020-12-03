@@ -18,7 +18,7 @@ namespace utils
     };
 
     template<typename ... TResults>
-    void print_result(const TResults& ... results)
+    void print_results(const TResults& ... results)
     {
         size_t part = 0;
         ((std::cout << "Part " << (++part) << " result: " << results << "\n"), ...);
