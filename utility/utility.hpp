@@ -4,5 +4,7 @@
 #include "result_printer.hpp"
 #include "file_reader.hpp"
 #include <functional>
+#include <algorithm>
+#include <numeric>
 
 #endif
