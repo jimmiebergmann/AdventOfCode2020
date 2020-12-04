@@ -39,7 +39,7 @@ int64_t solve_part_2(const std::vector<int64_t>& values)
 
 int main()
 {
-    auto values = utils::read_file_lines<int64_t>("day_1_input.txt");
+    /*auto values = utils::read_file_lines<int64_t>("day_1_input.txt");
     if (values.empty())
     {
         throw utils::puzzle_exception("Failed to read input file.");
@@ -48,5 +48,11 @@ int main()
     utils::print_results(
         solve_part_1(values),
         solve_part_2(values)
+    );*/
+
+    utils::solve_puzzles(
+        "day_1_input.txt",
+        solve_part_1,
+        solve_part_2
     );
 }

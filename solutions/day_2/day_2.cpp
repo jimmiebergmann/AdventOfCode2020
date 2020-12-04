@@ -1,6 +1,4 @@
 #include "utility.hpp"
-#include <regex>
-
 
 struct password_data_type
 {
@@ -67,16 +65,21 @@ int count_valid_passwords(const std::vector<std::string>& lines, std::function<b
     return valid_password_count;
 }
 
+int solve_part_1(const std::vector<std::string>& data)
+{
+    return count_valid_passwords(data, validate_part_1_password);
+}
+
+int solve_part_2(const std::vector<std::string>& data)
+{
+    return count_valid_passwords(data, validate_part_2_password);
+}
+
 int main()
 {
-    const auto lines = utils::read_file_lines<std::string>("day_2_input.txt");
-    if (lines.empty())
-    {
-        throw utils::puzzle_exception("Failed to read input file.");
-    }
-
-    utils::print_results(
-        count_valid_passwords(lines, validate_part_1_password),
-        count_valid_passwords(lines, validate_part_2_password)
+    utils::solve_puzzles(
+        "day_2_input.txt",
+        solve_part_1,
+        solve_part_2
     );
 }

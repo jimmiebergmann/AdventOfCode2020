@@ -10,7 +10,7 @@ namespace utils
 {
 
     template<typename TDataType>
-    std::vector<TDataType> read_file_lines(const std::string filename, const bool skip_empty_lines = true)
+    std::vector<TDataType> read_file_lines(const std::string filename, const bool skip_empty_lines = false)
     {
         std::ifstream file(filename);
         if (!file.is_open())

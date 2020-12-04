@@ -41,7 +41,7 @@ size_t solve_part_2(const std::vector<std::string>& lines)
         count_tree_hits(lines, 1, 2)
     };
 
-    return std::accumulate<>(
+    return std::accumulate(
         data.begin(), 
         data.end(), 
         size_t{ 1 },
@@ -50,14 +50,9 @@ size_t solve_part_2(const std::vector<std::string>& lines)
 
 int main()
 {
-    const auto lines = utils::read_file_lines<std::string>("day_3_input.txt");
-    if (lines.empty())
-    {
-        throw utils::puzzle_exception("Failed to read input file.");
-    }
-
-    utils::print_results(
-        solve_part_1(lines),
-        solve_part_2(lines)
+    utils::solve_puzzles(
+        "day_3_input.txt",
+        solve_part_1,
+        solve_part_2
     );
 }
