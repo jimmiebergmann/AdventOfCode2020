@@ -45,66 +45,49 @@ boarding_card read_boarding_card(const std::string& input)
 template<size_t VTokenCount>
 int64_t binary_search(const std::array<token_type, VTokenCount>& tokens, int64_t start, int64_t end)
 {
-    struct range_type
-    {
-        int64_t low;
-        int64_t high;
-    };
+    auto low = start;
+    auto high = end;
 
-    range_type range{ start, end };
     token_type token{};
     for(size_t i = 0; i < tokens.size(); i++)
     {
         token = tokens[i];
         if(token == token_type::low)
         {
-            range.high -= ((range.high - range.low) / 2) + 1;
+            high -= ((high - low) / 2) + 1;
         }
         else
         {
-            range.low += ((range.high - range.low) / 2) + 1;
+            low += ((high - low) / 2) + 1;
         }
     }
 
-    return token == token_type::low ? range.low : range.high;
+    return token == token_type::low ? low : high;
 }
 
-int64_t get_seat_id(const std::string& line)
+std::set<int64_t> get_seat_ids(const std::vector<std::string>& lines)
 {
-    auto boarding_card = read_boarding_card(line);
-    auto row = binary_search(boarding_card.row_tokens, 0, 127);
-    auto column = binary_search(boarding_card.column_tokens, 0, 7);
-    return (row * 8) + column;
+    std::set<int64_t> seats;
+    for (const auto& line : lines)
+    {
+        auto boarding_card = read_boarding_card(line);
+        auto row = binary_search(boarding_card.row_tokens, 0, 127);
+        auto column = binary_search(boarding_card.column_tokens, 0, 7);
+        int64_t seat_id = (row * 8) + column;
+        seats.insert(seat_id);
+    }
+
+    return seats;
 }
 
 size_t solve_part_1(const std::vector<std::string>& lines)
 {
-    size_t highest_seat_id = 0;
-    for (const auto& line : lines)
-    {
-        int64_t seat_id = get_seat_id(line);
-        if(seat_id > highest_seat_id)
-        {
-            highest_seat_id = seat_id;
-        }
-    }
-    
-    return highest_seat_id;
+    return *get_seat_ids(lines).rbegin();
 }
 
 size_t solve_part_2(const std::vector<std::string>& lines)
 {
-    std::set<int64_t> seat_ids;
-    for (const auto& line : lines)
-    {
-        int64_t seat_id = get_seat_id(line);
-
-        if(seat_ids.find(seat_id) != seat_ids.end())
-        {
-            throw utils::puzzle_exception("Duplicate of seat id.");
-        }
-        seat_ids.insert(seat_id); 
-    }
+    std::set<int64_t> seat_ids = get_seat_ids(lines);
 
     auto it = seat_ids.begin();
     int64_t prev_seat_id = *(it++);
