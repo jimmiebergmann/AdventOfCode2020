@@ -11,6 +11,8 @@
 #include <array>
 #include <map>
 #include <set>
+#include <memory>
+#include <stack>
 
 namespace utils
 {
