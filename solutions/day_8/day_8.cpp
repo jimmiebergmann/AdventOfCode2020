@@ -56,15 +56,11 @@ bool run_program(const std::vector<instruction_type>& instructions, int64_t& out
 
     for (size_t i = 0; i < instructions.size();)
     {
-        auto row_it = endless_loop_tracker.find(i);
-        if (row_it == endless_loop_tracker.end())
+        if (endless_loop_tracker.find(i) != endless_loop_tracker.end())
         {
-            endless_loop_tracker.insert(i);
+            return false;    
         }
-        else
-        {
-            return false;
-        }
+        endless_loop_tracker.insert(i);
 
         auto& instruction = instructions.at(i);
         switch(instruction.token)
